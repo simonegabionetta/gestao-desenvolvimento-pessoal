@@ -1,0 +1,16 @@
+{
+  "validNotes": [
+    {
+      "content": "Revisar reunião de equipe",
+      "date": "2024-01-10"
+    },
+    {
+      "content": "Anotar feedback do cliente",
+      "date": "2024-02-01"
+    },
+    {
+      "content": "Registrar ideias para o projeto X",
+      "date": "2024-03-01"
+    }
+  ]
+}

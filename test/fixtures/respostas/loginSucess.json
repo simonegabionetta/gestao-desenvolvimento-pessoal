@@ -1,0 +1,6 @@
+{
+  "structure": {
+    "token": "string"
+  },
+  "description": "A resposta de login bem-sucedido deve conter um token."
+}

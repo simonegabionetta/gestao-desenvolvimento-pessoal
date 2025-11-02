@@ -1,0 +1,20 @@
+
+{
+  "validImprovements": [
+    {
+      "description": "Melhoria no processo de desenvolvimento",
+      "startDate": "2024-01-15",
+      "category": "Processo"
+    },
+    {
+      "description": "Melhoria 1",
+      "startDate": "2024-02-20",
+      "category": "Processo"
+    },
+    {
+      "description": "Melhoria 2",
+      "startDate": "2024-03-10",
+      "category": "Processo"
+    }
+  ]
+}

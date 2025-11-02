@@ -1,0 +1,28 @@
+{
+  "validGoals": [
+    {
+      "title": "Meta Pessoal Planejada",
+      "type": "Pessoal",
+      "status": "planejada",
+      "dueDate": "2024-12-31"
+    },
+    {
+      "title": "Meta Pessoal Concluída",
+      "type": "Pessoal",
+      "status": "concluida",
+      "dueDate": "2024-12-31"
+    },
+    {
+      "title": "Meta Profissional Planejada",
+      "type": "Profissional",
+      "status": "planejada",
+      "dueDate": "2024-12-31"
+    },
+    {
+      "title": "Meta Profissional Concluída",
+      "type": "Profissional",
+      "status": "concluida",
+      "dueDate": "2024-12-31"
+    }
+  ]
+}
