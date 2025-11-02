@@ -1,0 +1,22 @@
+{
+  "validMentorships": [
+    {
+      "date": "2025-11-02",
+      "topic": "Mentoria de Node.js",
+      "notes": "Introdução a APIs REST",
+      "responsible": "João Silva"
+    },
+    {
+      "date": "2025-11-10",
+      "topic": "Mentoria de Express",
+      "notes": "Middleware e rotas",
+      "responsible": "Maria Souza"
+    },
+    {
+      "date": "2025-11-20",
+      "topic": "Mentoria de MongoDB",
+      "notes": "Modelos e consultas",
+      "responsible": "Carlos Lima"
+    }
+  ]
+}

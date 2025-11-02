@@ -1,21 +1,18 @@
 const request = require('supertest');
-require('dotenv').config();
+// fixtures
+const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
 
-const obterToken = async(email, password)
-const responseLogin = await request(process.env.BASE_URL)
-    .post('/users/login')
-    .set('Content-Type','application/json')
-    .send({
-        email, password 
-  
-    })
-    
-    if (responseLogin.status !== 200 || !responseLogin.body.token) {
-        throw new Error(`Falha ao obter token: ${responseLogin.body.error || 'Erro desconhecido'}`);
-    }
+const obterToken = async () => {
+    const respostaLogin = await request(process.env.BASE_URL)
+        .post('/users/login')
+        .send({   
+        email: logins.validLogin.email,
+        password: logins.validLogin.password
+        })
+    return respostaLogin.body.token
+ 
+};
 
-    return responseLogin.body.obterToken
-
-    module.export= {
-        obterToken
-    }
+module.exports ={
+    obterToken
+}

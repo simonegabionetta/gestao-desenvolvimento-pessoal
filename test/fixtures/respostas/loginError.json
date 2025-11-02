@@ -1,0 +1,14 @@
+{
+  "userNotFound": {
+    "error": "Usuário não encontrado",
+    "statusCode": 401
+  },
+  "invalidPassword": {
+    "error": "Senha inválida",
+    "statusCode": 401
+  },
+  "missingFields": {
+    "error": "string",
+    "statusCode": 400
+  }
+}

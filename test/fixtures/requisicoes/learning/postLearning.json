@@ -1,0 +1,22 @@
+{
+  "validLearnings": [
+    {
+      "content": "Aprender Node.js básico",
+      "date": "2024-01-10",
+      "type": "Curso",
+      "responsible": "Professor A"
+    },
+    {
+      "content": "Aprender React avançado",
+      "date": "2024-02-01",
+      "type": "Curso",
+      "responsible": "Professor B"
+    },
+    {
+      "content": "Workshop UX Design",
+      "date": "2024-03-01",
+      "type": "Workshop",
+      "responsible": "Professor C"
+    }
+  ]
+}

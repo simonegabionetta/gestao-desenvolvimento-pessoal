@@ -1,10 +1,59 @@
 {
-  "loginValido": {
-    "email": "pedro@gmail.com",
+  "validLogin": {
+    "name": "Robert Silva",
+    "email": "robert.silva@yahoo.com.br",
     "password": "123456"
   },
-  "loginInvalido": {
-    "email": "usuarioinexistente@gmail.com",
-    "password": "12345"
+  "invalidEmail": {
+    "email": "maria.santos@.com",
+    "password": "123456"
+  },
+  "invalidPassword": {
+    "email": "robert.silva@yahoo.com.br",
+    "password": "123"
+  },
+  "missingEmail": {
+    "password": "123456"
+  },
+  "missingPassword": {
+    "email": "robert.silva@yahoo.com.br"
+  },
+  "emptyEmail": {
+    "email": "",
+    "password": "123456"
+  },
+  "emptyPassword": {
+    "email": "robert.silva@yahoo.com.br",
+    "password": ""
+  },
+  "invalidEmailFormat": {
+    "email": "robert.silva",
+    "password": "123456"
+  },
+  "alternativeValidLogin": {
+    "email": "robert.silva@yahoo.com.br",
+    "password": "123456"
+  },
+  "emailWithoutDomain": {
+    "email": "robert.silva",
+    "password": "123456"
+  },
+  "emailWithSpecialChars": {
+    "email": "robert.silva+test@yahoo.com.br",
+    "password": "123456"
+  },
+
+  "nonExistentUser": {
+    "email": "usuario.inexistente@teste.com",
+    "password": "123456"
   }
+
+   
+
+  
+
+
+  
+
+
 }

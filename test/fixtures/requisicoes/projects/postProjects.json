@@ -1,0 +1,21 @@
+{
+  "validProjects": [
+    {
+      "name": "Projeto API",
+      "description": "Desenvolver API REST",
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "status": "em_andamento"
+    },
+    {
+      "name": "Projeto 1",
+      "startDate": "2024-01-01",
+      "endDate": "2024-06-30"
+    },
+    {
+      "name": "Projeto 2",
+      "startDate": "2024-07-01",
+      "endDate": "2024-12-31"
+    }
+  ]
+}

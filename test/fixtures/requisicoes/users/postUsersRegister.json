@@ -1,14 +1,26 @@
 {
-  "userValido":{
-      "name": "Pedro Teste",
-      "email": "pedro@gmail.com",
-      "password": "123456",
-      "avatar": null
-    },
-    "userInvalido":{
-      "name": "Pedro Teste",
-      "email": "pedro@gmail.com",
-      "password": "12345",
-      "avatar": null
-    }
+  "validUser": {
+    "name": "Ana Paula Santos",
+    "email": "ana.santos@yahoo.com.br",
+    "password": "123456"
+  },
+  
+  "userAlredyExists": {
+    "name": "Ana Paula Santos",
+    "email": "ana.santos@yahoo.com.br",
+    "password": "123456"
+  },
+
+  "DuplicateUser":{
+    "name": "Carlos Oliveira",
+    "email": "carlos.oliveira@gmail.com",
+    "password": "123456"
+
+  },
+   "userUpdate": {
+    "name": "Robert Update",
+    "email": "robert.silva@yahoo.com.br"
   }
+
+  
+}
