@@ -1,16 +1,48 @@
 # API de Gestão de Desenvolvimento Profissional
 
-Esta API RESTful permite a gestão de desenvolvimento  profissional, incluindo funcionalidades para usuários, metas, projetos, mentorias, melhorias, aprendizados, anotações e dashboard de estatísticas.
+![Node.js 18.x](https://img.shields.io/badge/node.js-18.x-green?logo=node.js)
+![Mocha](https://img.shields.io/badge/Mocha-Testing-red?logo=mocha)
+![SuperTest](https://img.shields.io/badge/SuperTest-API%20Testing-orange)
+![Chai](https://img.shields.io/badge/Chai-Assertion%20Library-brightgreen)
+
+
+
+## Sumário
+
+- [Sobre o Projeto](#-sobre-o-projeto)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Como Executar](#-como-executar)
+- [Como Rodar os Testes](#-como-rodar-os-testes)
+- [Funcionalidades](#-funcionalidades)
+- [Regras de Negócio](#-regras-de-negócio)
+- [Endpoints Principais](#-endpoints-principais)
+- [Próximos Passos](#-próximos-passos)
+- [Documentação Detalhada](#-documentação-detalhada)
+- [Créditos e Licença](#-créditos-e-licença)
+
+
+## Sobre o Projeto
+
+Projeto desenvolvido como **entrega final da Mentoria 2.0 em Testes de Software**, servindo como **portfólio voltado à qualidade de software**.  
+Este projeto inclui:
+
+- **Desenvolvimento de API RESTful** com uso IA para gestão de desenvolvimento pessoal: usuários, metas, projetos, mentorias, aprendizados e estatísticas.  
+- **Testes automatizados** utilizando **SuperTest** e **Mocha**.  
+- Registro de **evidências visuais** e geração de **relatórios detalhados** das execuções de teste.
 
 ## Tecnologias Utilizadas
 - Node.js
-- Express
-- JWT para autenticação
-- bcryptjs para criptografia de senhas
-- Banco de dados em memória
-- Documentação Swagger
+-  **Express** – API REST
+-  **Swagger** – Documentação de endpoints REST
+-  - **SuperTest** & **Mocha** – Testes automatizados
+- **Chai** – Framework de assertions
+- **Banco de dados em memória**
+- **JWT** para autenticação
+- **bcryptjs** para criptografia de senhas
 
-## Estrutura do Projeto
+  ## Estrutura do Projeto
+  
 - `src/models`: Modelos de dados
 - `src/services`: Lógica de negócio
 - `src/controllers`: Controladores das rotas
@@ -18,16 +50,46 @@ Esta API RESTful permite a gestão de desenvolvimento  profissional, incluindo f
 - `src/middleware`: Middlewares de autenticação e outros
 - `resources/swagger.yaml`: Documentação da API
 
-## Como rodar o projeto
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-2. Inicie o servidor:
-   ```bash
-   npm start
-   ```
-3. Acesse a documentação Swagger em: `http://localhost:3000/api-docs`
+## Como Executar
+
+1. **Clone o repositório:**
+```sh
+git clone https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal
+cd gestao-desenvolvimento-pessoal
+```
+
+2. **Instale as dependências:**
+```sh
+npm install
+```
+
+3. **Configure o arquivo `.env`:**
+```env
+BASE_URL_REST=http://localhost:3000
+```
+
+4. **Inicie os servidores:**
+
+**API REST:**
+```sh
+npm start
+# ou
+node server.js
+```
+
+- **API REST** disponível em: <http://localhost:3000>  
+- **Documentação Swagger**: <http://localhost:3000/api-docs>
+
+## Como Rodar os Testes
+
+### Testes Funcionais (SuperTest/Mocha)
+
+Total de testes implementados: 73 testes funcionais
+
+**Executar todos os testes funcionais:**
+```sh
+npm test
+```
 
 ## Funcionalidades
 
@@ -229,13 +291,36 @@ Esta API RESTful permite a gestão de desenvolvimento  profissional, incluindo f
 ## Autenticação
 
 A maioria dos endpoints requer autenticação via JWT. Para obter o token:
-
 1. Faça o cadastro ou login através dos endpoints `/users/register` ou `/users/login`
 2. Use o token retornado no header das requisições:
    ```
    Authorization: Bearer <seu_token>
    ```
 
-## Documentação
+## Próximos Passos
+   
+- **Testes de Performance:**  
+ Medir tempo de resposta e analisar a escalabilidade de aplicações.
 
-Consulte a documentação Swagger completa em: `http://localhost:3000/api-docs` para detalhes de cada endpoint, modelos de requisição/resposta e códigos de erro.
+- **Desenvolvimento Web:**  
+Construir aplicações web modernas, responsivas e funcionais, integrando boas práticas de desenvolvimento e acessibilidade.
+
+- **Testes Automatizados com Cypress:**  
+  Aplicar testes end-to-end para validar fluxos completos da aplicação.
+
+- **Integração Contínua (CI):**  
+  Implementar pipelines de CI para automatizar builds, testes e deploys, garantindo que mudanças no código sejam validadas rapidamente e mantendo a qualidade e estabilidade da aplicação.
+
+## Documentação Detalhada
+
+Esta seção aborda todos os aspectos relacionados à qualidade do software e aos testes realizados no projeto. 
+
+[Wiki](URL_da_wiki)
+
+
+## Créditos e Licença
+
+<a href="https://www.linkedin.com/in/simonegabionetta/" target="_blank">Simone Gabionetta</a><br>
+*Portfólio e entrega final – Mentoria 2.0 em Testes de Software - [Júlio de Lima](https://www.linkedin.com/in/julio-de-lima/)*  
+
+
