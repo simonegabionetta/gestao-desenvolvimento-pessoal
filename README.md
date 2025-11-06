@@ -9,17 +9,17 @@
 
 ## Sumário
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Como Executar](#-como-executar)
-- [Como Rodar os Testes](#-como-rodar-os-testes)
-- [Funcionalidades](#-funcionalidades)
-- [Regras de Negócio](#-regras-de-negócio)
-- [Endpoints Principais](#-endpoints-principais)
-- [Próximos Passos](#-próximos-passos)
-- [Documentação Detalhada](#-documentação-detalhada)
-- [Créditos e Licença](#-créditos-e-licença)
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Executar](#como-executar)
+- [Como Rodar os Testes](#como-rodar-os-testes)
+- [Funcionalidades](#funcionalidades)
+- [Regras de Negócio](#regras-de-negócio)
+- [Endpoints Principais](#endpoints-principais)
+- [Próximos Passos](#próximos-passos)
+- [Documentação Detalhada](#documentação-detalhada)
+- [Créditos e Licença](#créditos-e-licença)
 
 
 ## Sobre o Projeto
@@ -315,12 +315,12 @@ Construir aplicações web modernas, responsivas e funcionais, integrando boas p
 
 Esta seção aborda todos os aspectos relacionados à qualidade do software e aos testes realizados no projeto. 
 
-[Wiki](URL_da_wiki)
+[Wiki](https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal/wiki)
 
 
 ## Créditos e Licença
 
-<a href="https://www.linkedin.com/in/simonegabionetta/" target="_blank">Simone Gabionetta</a><br>
+*Desenvolvido por: <a href="https://www.linkedin.com/in/simonegabionetta/" target="_blank">Simone Gabionetta</a><br>*
 *Portfólio e entrega final – Mentoria 2.0 em Testes de Software - [Júlio de Lima](https://www.linkedin.com/in/julio-de-lima/)*  
 
 
