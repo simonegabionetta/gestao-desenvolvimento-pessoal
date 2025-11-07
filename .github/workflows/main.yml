@@ -32,7 +32,7 @@ jobs:
 
     - name: Criar .env
       run: |
-        echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
+        echo "BASE_URL_REST=${{ secrets.BASE_URL}}" >> .env
 
 
     - name: Rodar os testes  de API Rest via HTTP
