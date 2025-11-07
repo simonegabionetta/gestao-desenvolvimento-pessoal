@@ -1,5 +1,5 @@
 {
-  "name": "portifolio-final",
+  "name": "gestao-desenvolvimento-pessoal",
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
@@ -17,15 +17,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simonegabionetta/portifolio-final.git"
+    "url": "git+https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/simonegabionetta/portifolio-final/issues"
+    "url": "https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal/issues"
   },
-  "homepage": "https://github.com/simonegabionetta/portifolio-final#readme",
+  "homepage": "https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal#readme",
   "description": "",
   "devDependencies": {
     "chai": "^6.2.0",
