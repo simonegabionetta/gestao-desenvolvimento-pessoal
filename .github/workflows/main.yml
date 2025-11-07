@@ -1,4 +1,4 @@
-name: CI testes
+name: CI - Testes
 
 on:
   workflow_dispatch:
@@ -9,23 +9,27 @@ jobs:
 
     env:
       BASE_URL: 'http://localhost:3000'
+      NODE_ENV: 'test'
 
     steps:
-      - name: Checkout do Repositório
-        uses: actions/checkout@v4
+      # Clonar o repositório
+      - name: Checkout do repositório
+        uses: actions/checkout@v6
 
-      - name: Instalando as dependências
-        run: npm install
+      # Instalar dependências
+      - name: Instalar dependências
+        run: npm ci       
 
-      - name: Iniciar o servidor de aplicação
-        run: npm start 
-        
-      - name: Executar os testes
+      # Iniciar servidor de aplicação em background
+      - name: Iniciar servidor de aplicação
+        run: npm start &
+
+      # Esperar o servidor estar pronto
+      - name: Aguardar servidor
+        run: |
+          echo "Aguardando servidor..."
+          npx wait-on http://localhost:3000
+
+      # Executar os testes
+      - name: Executar testes
         run: npm test
-
-
-         
-
-
-
-  
