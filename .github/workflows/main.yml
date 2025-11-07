@@ -12,24 +12,19 @@ jobs:
       NODE_ENV: 'test'
 
     steps:
-      # Clonar o repositório
       - name: Checkout do repositório
         uses: actions/checkout@v6
 
-      # Instalar dependências
       - name: Instalar dependências
-        run: npm ci       
+        run: npm ci
 
-      # Iniciar servidor de aplicação em background
-      - name: Iniciar servidor de aplicação
-        run: npm start &
+      - name: Instalar wait-on
+        run: npm install --save-dev wait-on
 
-      # Esperar o servidor estar pronto
-      - name: Aguardar servidor
+      - name: Iniciar servidor e aguardar
         run: |
-          echo "Aguardando servidor..."
+          npm start &
           npx wait-on http://localhost:3000
 
-      # Executar os testes
       - name: Executar testes
         run: npm test
