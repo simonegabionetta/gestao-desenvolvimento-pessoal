@@ -1,40 +1,44 @@
-name: Workflow de Disparo Manual
+name: CI - Testes de API
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # permite disparo manual
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
+    env:
+      NODE_ENV: test
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      # 1. Clonar o repositório
+      - name: Checkout do repositório
+        uses: actions/checkout@v6
 
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22.x'
+      # 2. Configurar Node.js
+      - name: Configurar Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
 
-    - name: Install dependencies
-      run: npm install
+      # 3. Instalar dependências
+      - name: Instalar dependências
+        run: npm ci
 
-    - name: Rodar os testes de API 
-      run: npm test
+      # 4. Criar arquivo .env com variáveis necessárias
+      - name: Criar arquivo .env
+        run: |
+          echo "BASE_URL=http://localhost:3000" >> .env
+          echo "NODE_ENV=test" >> .env
 
-    - name: Subir a API Rest 
-      run: 
-        npm start &
-        npx wait-on tcp:3000 --timeout 60000
+      # 5. Subir servidor em background
+      - name: Subir servidor da API
+        run: npm start &
 
-    - name: Esperar as APIs estarem Funcionando
-      run: sleep 8
+      # 6. Esperar servidor estar pronto
+      - name: Aguardar servidor estar online
+        run: npx wait-on http://localhost:3000 --timeout 60000
 
-    - name: Criar .env
-      run: |
-        echo "BASE_URL_REST=${{ secrets.BASE_URL}}" >> .env
-
-
-    - name: Rodar os testes  de API Rest via HTTP
-      run: npm test
-
+      # 7. Rodar testes
+      - name: Rodar testes de API
+        run: npm test
