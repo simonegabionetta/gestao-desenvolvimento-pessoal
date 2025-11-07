@@ -1,30 +1,40 @@
-name: CI - Testes
+name: Workflow de Disparo Manual
 
 on:
   workflow_dispatch:
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
 
-    env:
-      BASE_URL: 'http://localhost:3000'
-      NODE_ENV: 'test'
-
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v6
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Instalar dependências
-        run: npm ci
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.x'
 
-      - name: Instalar wait-on
-        run: npm install --save-dev wait-on
+    - name: Install dependencies
+      run: npm install
 
-      - name: Iniciar servidor e aguardar
-        run: |
-          npm start &
-          npx wait-on http://localhost:3000
+    - name: Rodar os testes de API 
+      run: npm test
 
-      - name: Executar testes
-        run: npm test
+    - name: Subir a API Rest 
+      run: 
+        npm start &
+        npx wait-on tcp:3000 --timeout 60000
+
+    - name: Esperar as APIs estarem Funcionando
+      run: sleep 8
+
+    - name: Criar .env
+      run: |
+        echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
+
+
+    - name: Rodar os testes  de API Rest via HTTP
+      run: npm test
+
