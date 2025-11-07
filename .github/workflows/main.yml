@@ -1,14 +1,15 @@
 name: CI - Testes de API
 
 on:
-  workflow_dispatch:  # permite disparo manual
+  workflow_dispatch:
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
 
     env:
       NODE_ENV: test
+      BASE_URL: ${{ secrets.BASE_URL }} # Configure o segredo no repositório
 
     steps:
       # 1. Clonar o repositório
@@ -16,7 +17,7 @@ jobs:
         uses: actions/checkout@v6
 
       # 2. Configurar Node.js
-      - name: Configurar Node.js 22.x
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
@@ -25,20 +26,22 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      # 4. Criar arquivo .env com variáveis necessárias
+      # 4. Criar arquivo .env
       - name: Criar arquivo .env
         run: |
-          echo "BASE_URL=http://localhost:3000" >> .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
           echo "NODE_ENV=test" >> .env
 
-      # 5. Subir servidor em background
-      - name: Subir servidor da API
-        run: npm start &
+      # 5. Subir o servidor em background
+      - name: Iniciar servidor de aplicação
+        run: |
+          npm start &
+          npx wait-on http://localhost:3000 --timeout 60000
 
       # 6. Esperar servidor estar pronto
-      - name: Aguardar servidor estar online
+      - name: Aguardar servidor
         run: npx wait-on http://localhost:3000 --timeout 60000
 
-      # 7. Rodar testes
-      - name: Rodar testes de API
+      # 7. Rodar testes de API
+      - name: Executar testes
         run: npm test
