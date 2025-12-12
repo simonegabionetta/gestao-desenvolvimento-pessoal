@@ -22,13 +22,21 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Iniciar servidor
-        run: npm start &
+      - name: Iniciar servidor (log em background)
+        run: |
+          npm start > server.log 2>&1 &
+          echo $! > server.pid
         env:
           PORT: 3000
 
-      - name: Aguardar servidor subir
-        run: npx wait-on --timeout 30000 http://localhost:3000
+      - name: Aguardar servidor subir e mostrar logs
+        run: |
+          npx wait-on --timeout 60000 http://localhost:3000
+          status=$?
+          echo "--- server.log (início) ---"
+          sed -n '1,200p' server.log || true
+          echo "--- server.log (fim) ---"
+          exit $status
 
       - name: Rodar testes
         run: npm test
