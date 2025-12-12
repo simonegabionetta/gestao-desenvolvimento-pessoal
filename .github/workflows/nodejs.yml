@@ -22,5 +22,15 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Iniciar servidor
+        run: npm start &
+        env:
+          PORT: 3000
+
+      - name: Aguardar servidor subir
+        run: npx wait-on http://localhost:3000
+
       - name: Rodar testes
         run: npm test
+        env:
+          BASE_URL: http://localhost:3000
