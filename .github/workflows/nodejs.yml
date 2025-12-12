@@ -25,7 +25,10 @@ jobs:
       - name: Iniciar servidor
         run: npm start &
         env:
-          PORT: 3000      
+          PORT: 3000
+
+      - name: Aguardar servidor subir
+        run: npx wait-on --timeout 30000 http://localhost:3000
 
       - name: Rodar testes
         run: npm test
