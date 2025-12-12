@@ -11,7 +11,7 @@ describe('notes', () => {
 
     beforeEach(async () => {
         token = await obterToken(logins.validLogin.email, logins.validLogin.password);
-         console.log('TOKEN GERADO:', token); // 👈 ADICIONE ESTA LINHA
+         
         await limpar(token);
     });
 

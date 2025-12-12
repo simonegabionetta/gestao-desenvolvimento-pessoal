@@ -65,7 +65,7 @@ npm install
 
 3. **Configure o arquivo `.env`:**
 ```env
-BASE_URL_REST=http://localhost:3000
+BASE_URL=http://localhost:3000
 ```
 
 4. **Inicie os servidores:**

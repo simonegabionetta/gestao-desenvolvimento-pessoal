@@ -1,7 +1,7 @@
 const request = require('supertest');
 // fixtures
 const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
-
+require('dotenv').config();
 const obterToken = async () => {
     // Registrar usuário antes do login (ignora se já existir)
     await request(process.env.BASE_URL)
