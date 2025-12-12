@@ -1,10 +1,10 @@
 //bilbiotecas
-const request = require('supertest');
-const { expect } = require('chai');
-require('dotenv').config();
+import request from 'supertest';
+import { expect } from 'chai';
+import "dotenv/config";
 
 //fixtures
-const users = require('../fixtures/requisicoes/users/postUsersRegister.json');
+import users from '../fixtures/requisicoes/users/postUsersRegister.json' assert { type: 'json' };
 
 describe('users', () => {
 
