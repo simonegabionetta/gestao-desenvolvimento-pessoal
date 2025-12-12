@@ -1,5 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const app = express();
+
 const userRoutes = require('./routes/userRoutes');
 const goalRoutes = require('./routes/goalRoutes');
 const projectRoutes = require('./routes/projectRoutes');
@@ -24,9 +27,9 @@ app.use('/notes', noteRoutes);
 app.use('/dashboard', dashboardRoutes);
 
 // Swagger
-const swaggerDocument = YAML.load(path.join(__dirname, '../resources/swagger.yaml'));
+const swaggerDocument = YAML.load(path.join(new URL('.', import.meta.url).pathname, '../resources/swagger.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (req, res) => res.send('API de Gestão de Desenvolvimento Pessoal e Profissional'));
 
-module.exports = app;
+export default app;
