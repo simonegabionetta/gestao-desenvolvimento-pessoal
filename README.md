@@ -35,7 +35,7 @@ Este projeto inclui:
 - Node.js
 -  **Express** – API REST
 -  **Swagger** – Documentação de endpoints REST
--  - **SuperTest** & **Mocha** – Testes automatizados
+-  **SuperTest** & **Mocha** – Testes automatizados
 - **Chai** – Framework de assertions
 - **Banco de dados em memória**
 - **JWT** para autenticação
