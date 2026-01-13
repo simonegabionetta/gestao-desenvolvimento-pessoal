@@ -24,7 +24,7 @@
 
 ## Sobre o Projeto
 
-Projeto desenvolvido como **entrega final da Mentoria 2.0 em Testes de Software**, servindo como **portfólio voltado à qualidade de software**.  
+Projeto desenvolvido como **entrega final da Mentoria 2.0 em Testes de Software**, .  
 Este projeto inclui:
 
 - **Desenvolvimento de API RESTful** com uso IA para gestão de desenvolvimento pessoal: usuários, metas, projetos, mentorias, aprendizados e estatísticas.  
