@@ -1,11 +1,11 @@
-const { expect } = require('chai');
-const request = require('supertest');
-const { obterToken } = require('../helpers/authHelper');
-const { limpar } = require('../helpers/clear');
-require('dotenv').config();
+import { expect } from 'chai';
+import request from 'supertest';
+import { obterToken } from '../helpers/authHelper.js';
+import { limpar } from '../helpers/clear.js';
+import 'dotenv/config';
 
-const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
-const mentorships = require('../fixtures/requisicoes/mentorships/postMentorships.json');
+import logins from '../fixtures/requisicoes/users/postUsersLogin.json' assert { type: 'json' };
+import mentorships from '../fixtures/requisicoes/mentorships/postMentorships.json' assert { type: 'json' };
 
 describe('mentorships ', () => {
     let token;

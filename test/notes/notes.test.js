@@ -1,17 +1,19 @@
-const { expect } = require('chai');
-const request = require('supertest');
-const { obterToken } = require('../helpers/authHelper');
-const { limpar } = require('../helpers/clear');
-require('dotenv').config();
-const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
-const notes = require('../fixtures/requisicoes/notes/postNotes.json');
+
+import { expect } from 'chai';
+import request from 'supertest';
+import { obterToken } from '../helpers/authHelper.js';
+import { limpar } from '../helpers/clear.js';
+import dotenv from 'dotenv';
+import logins from '../fixtures/requisicoes/users/postUsersLogin.json' assert { type: 'json' };
+import notes from '../fixtures/requisicoes/notes/postNotes.json' assert { type: 'json' };
+dotenv.config();
 
 describe('notes', () => {
     let token;
 
     beforeEach(async () => {
         token = await obterToken(logins.validLogin.email, logins.validLogin.password);
-         console.log('TOKEN GERADO:', token); // 👈 ADICIONE ESTA LINHA
+         
         await limpar(token);
     });
 

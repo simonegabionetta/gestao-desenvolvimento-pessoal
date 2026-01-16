@@ -1,0 +1,44 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Iniciar servidor (log em background)
+        run: |
+          npm start > server.log 2>&1 &
+          echo $! > server.pid
+        env:
+          PORT: 3000
+
+      - name: Aguardar servidor subir e mostrar logs
+        run: |
+          npx wait-on --timeout 60000 http://localhost:3000
+          status=$?
+          echo "--- server.log (início) ---"
+          sed -n '1,200p' server.log || true
+          echo "--- server.log (fim) ---"
+          exit $status
+
+      - name: Rodar testes
+        run: npm test
+        env:
+          BASE_URL: http://localhost:3000

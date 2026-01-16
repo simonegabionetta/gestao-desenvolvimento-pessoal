@@ -1,13 +1,13 @@
 // bibliotecas
-const request = require('supertest');
-const { expect } = require('chai');
-require('dotenv').config();
+import request from 'supertest';
+import { expect } from 'chai';
+import "dotenv/config";
 
 // fixtures
-const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
+import logins from '../fixtures/requisicoes/users/postUsersLogin.json' assert { type: 'json' };
 
 // helper
-const { obterToken } = require('../helpers/authHelper');
+import { obterToken } from '../helpers/authHelper.js';
 
 describe('users', () => {
   describe('POST /users/login', () => {  

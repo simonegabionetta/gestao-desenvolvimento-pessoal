@@ -1,12 +1,12 @@
 // bibliotecas
-const { expect } = require('chai');
-const request = require('supertest');
+import { expect } from 'chai';
+import request from 'supertest';
 
 // fixtures
-const users = require('../fixtures/requisicoes/users/postUsersRegister.json');
+import users from '../fixtures/requisicoes/users/postUsersRegister.json' assert { type: 'json' };
 
 // helpers
-const { obterToken } = require('../helpers/authHelper');
+import { obterToken } from '../helpers/authHelper.js';
 
 describe('users', () => {
     let obterToken;

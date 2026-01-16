@@ -1,5 +1,6 @@
-const request = require('supertest');
-require('dotenv').config();
+import request from 'supertest';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const limpar = async (token) => {
   await request(process.env.BASE_URL)
@@ -7,6 +8,4 @@ const limpar = async (token) => {
     .set('Authorization', `Bearer ${token}`);
 };
 
-module.exports = { 
-    limpar
- };
+export { limpar };

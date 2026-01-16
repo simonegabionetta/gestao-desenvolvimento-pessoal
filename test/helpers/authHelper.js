@@ -1,6 +1,7 @@
-const request = require('supertest');
-// fixtures
-const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
+import request from 'supertest';
+import logins from '../fixtures/requisicoes/users/postUsersLogin.json' assert { type: 'json' };
+import dotenv from 'dotenv';
+dotenv.config();
 
 const obterToken = async () => {
     // Registrar usuário antes do login (ignora se já existir)
@@ -23,7 +24,4 @@ const obterToken = async () => {
     return respostaLogin.body.token;
 };
 
-
-module.exports ={
-    obterToken
-}
+export { obterToken };
