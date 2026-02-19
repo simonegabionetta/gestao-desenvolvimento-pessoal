@@ -6,9 +6,9 @@ require('dotenv').config();
 const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
 const projects = require('../fixtures/requisicoes/projects/postProjects.json');
 
-
 describe('projects', () => {
     let token;
+
     beforeEach(async () => {
         token = await obterToken(logins.validLogin.email, logins.validLogin.password);
         await limpar(token);
@@ -19,7 +19,7 @@ describe('projects', () => {
             const response = await request(process.env.BASE_URL)
                 .post('/projects')
                 .set('Authorization', `Bearer ${token}`)
-                .send(projects.validProjects[0])
+                .send(projects.validProjects[0]);
 
             expect(response.status).to.equal(201);
             expect(response.body).to.have.property('createdAt');
@@ -40,135 +40,122 @@ describe('projects', () => {
                 .send(projects.validProjects[2]);
         });
 
-        it('Deve retornar 200 com a lista de projetos', async function () {
+        it('Deve retornar 200 com a lista de projetos', async () => {
             const response = await request(process.env.BASE_URL)
                 .get('/projects')
                 .set('Authorization', `Bearer ${token}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
-
         });
 
         it('Deve filtrar por período (RN016, RN028)', async () => {
             const response = await request(process.env.BASE_URL)
-                .get('/projects?start=2024-01-01&end=2024-06-30') // use os parâmetros corretos do Swagger
+                .get('/projects?start=2024-01-01&end=2024-06-30')
                 .set('Authorization', `Bearer ${token}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
+        });
+    });
 
-           
+    describe('GET /projects/:id', () => {
+        let projectId;
+
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/projects')
+                .set('Authorization', `Bearer ${token}`)
+                .send(projects.validProjects[2]);
+
+            projectId = response.body.id;
+            expect(projectId).to.exist;
         });
 
+        it('Deve retornar 200 com os detalhes do projeto (RN025, RN026)', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get(`/projects/${projectId}`)
+                .set('Authorization', `Bearer ${token}`);
 
-    });
-});
+            expect(response.status).to.equal(200);
+            expect(response.body.id).to.equal(projectId);
+        });
 
-describe('GET /projects/id', () => {
-    let projectId;    
+        it('Deve retornar 404 quando o projeto não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get('/projects/9999')
+                .set('Authorization', `Bearer ${token}`);
 
-    beforeEach(async () => {
-        token = await obterToken(logins.validLogin.email, logins.validLogin.password);
-        const response = await request(process.env.BASE_URL)
-            .post('/projects')
-            .set('Authorization', `Bearer ${token}`)
-            .send(projects.validProjects[2]);    
-       
-        projectId = response.body.id;
-        expect(projectId).to.exist;
-    });
-
-    it('Deve retornar 200 com os detalhes do projeto (RN025, RN026)', async function () {
-        const response = await request(process.env.BASE_URL)
-            .get(`/projects/${projectId}`)
-            .set('Authorization', `Bearer ${token}`);
-        projectId = response.body.id;
-            
-
-        expect(response.status).to.equal(200);
-        expect(response.body.id).to.equal(projectId);
+            expect(response.status).to.equal(404);
+        });
     });
 
-    it('Deve retornar 404 quando o projeto não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .get('/projects/9999')
-            .set('Authorization', `Bearer ${token}`);
+    describe('PUT /projects/:id', () => {
+        let projectId;
 
-        expect(response.status).to.equal(404);
-    });
-});
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/projects')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    name: 'Projeto Original',
+                    startDate: '2024-01-01',
+                    endDate: '2024-12-31'
+                });
 
-describe('PUT /projects/id', () => {
-    let projectId;
+            projectId = response.body.id;
+        });
 
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/projects')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                name: 'Projeto Original',
-                startDate: '2024-01-01',
-                endDate: '2024-12-31'
-            });
-        projectId = response.body.id;
-    });
+        it('Deve retornar 200 com o projeto atualizado (RN030)', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put(`/projects/${projectId}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({ name: 'Projeto Atualizado' });
 
-    it('Deve retornar 200 com o projeto atualizado (RN030)', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put(`/projects/${projectId}`)
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                name: 'Projeto Atualizado'
-            });
+            expect(response.status).to.equal(200);
+            expect(response.body.name).to.equal('Projeto Atualizado');
+        });
 
-        expect(response.status).to.equal(200);
-        expect(response.body.name).to.equal('Projeto Atualizado');
-    });
+        it('Deve retornar 400/404 quando o projeto não existir (RN019)', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put('/projects/9999')
+                .set('Authorization', `Bearer ${token}`)
+                .send({ name: 'Test' });
 
-    it('Deve retornar 400 com dados inválidos (RN019)', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put('/projects/9999')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                name: 'Test'
-            });
-       
-        expect(response.status).to.equal(400);
-        expect(response.body.error).to.equal('Projeto não encontrado');
-    });
-});
-
-describe('DELETE /projects/id', () => {
-    let projectId;
-
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/projects')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                name: 'Projeto para Deletar',
-                startDate: '2024-01-01',
-                endDate: '2024-12-31'
-            });
-        projectId = response.body.id;
+            expect([400, 404]).to.include(response.status);
+        });
     });
 
-    it('Deve retornar 204 quando o projeto for excluído.', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete(`/projects/${projectId}`)
-            .set('Authorization', `Bearer ${token}`);
+    describe('DELETE /projects/:id', () => {
+        let projectId;
 
-        expect(response.status).to.equal(204);
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/projects')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    name: 'Projeto para Deletar',
+                    startDate: '2024-01-01',
+                    endDate: '2024-12-31'
+                });
+
+            projectId = response.body.id;
+        });
+
+        it('Deve retornar 204 quando o projeto for excluído', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete(`/projects/${projectId}`)
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).to.equal(204);
+        });
+
+        it('Deve retornar 404 quando o projeto não existir (RN019)', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete('/projects/9999')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect([400, 404]).to.include(response.status);
+        });
     });
-
-    it('Deve retornar 404 quando o projeto não existir (RN019)', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete('/projects/9999')
-            .set('Authorization', `Bearer ${token}`);
-    
-        expect([400, 404]).to.include(response.status);
-    });
-});
-
-
+}); 

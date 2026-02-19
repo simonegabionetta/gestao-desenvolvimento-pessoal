@@ -20,6 +20,7 @@ function login({ email, password }) {
   if (!user) throw new Error('Usuário não encontrado');
   if (!bcrypt.compareSync(password, user.password)) throw new Error('Senha inválida');
   const token = jwt.sign({ id: user.id, email: user.email }, SECRET, { expiresIn: '1h' });
+  addHistory(user.id, 'Fez login'); // ✅ adicionado
   return { token };
 }
 
@@ -37,6 +38,7 @@ function updateProfile(userId, data) {
   if (data.email) user.email = data.email;
   if (data.password) user.password = bcrypt.hashSync(data.password, 8);
   if (data.avatar) user.avatar = data.avatar;
+  addHistory(userId, 'Atualizou perfil'); // ✅ adicionado
   return { id: user.id, name: user.name, email: user.email, avatar: user.avatar };
 }
 

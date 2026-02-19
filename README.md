@@ -41,7 +41,7 @@ Este projeto inclui:
 - **JWT** para autenticação
 - **bcryptjs** para criptografia de senhas
 
-  ## Estrutura do Projeto
+## Estrutura do Projeto
   
 - `src/models`: Modelos de dados
 - `src/services`: Lógica de negócio
@@ -65,7 +65,7 @@ npm install
 
 3. **Configure o arquivo `.env`:**
 ```env
-BASE_URL_REST=http://localhost:3000
+BASE_URL=http://localhost:3000
 ```
 
 4. **Inicie os servidores:**
@@ -81,10 +81,6 @@ node server.js
 - **Documentação Swagger**: <http://localhost:3000/api-docs>
 
 ## Como Rodar os Testes
-
-### Testes Funcionais (SuperTest/Mocha)
-
-Total de testes implementados: 73 testes funcionais
 
 **Executar todos os testes funcionais:**
 ```sh
@@ -147,89 +143,48 @@ npm test
 - Gráfico de evolução por período
 - Filtros de dados por tipo, status e período
 
-## Regras de Negócio
-
-### Autenticação e Usuários
-- **RN001**: Ao registrar um novo usuário, o sistema deve verificar se o email já está cadastrado. Caso esteja, retornar erro "Usuário já existe"
-- **RN002**: Senhas de usuários devem ser armazenadas criptografadas usando bcrypt com salt 8
-- **RN003**: Ao fazer login, o sistema deve verificar se o email existe e se a senha está correta. Caso contrário, retornar erro específico ("Usuário não encontrado" ou "Senha inválida")
-- **RN004**: Tokens JWT gerados no login devem expirar em 1 hora
-- **RN005**: Ao buscar o perfil de um usuário, a senha nunca deve ser retornada
-- **RN006**: Senhas atualizadas no perfil devem ser re-criptografadas antes de armazenar
-- **RN007**: Histórico de atividades deve ser limitado a 10 registros por padrão, com paginação opcional
-- **RN008**: Novas ações no histórico devem ser adicionadas no início da lista (mais recente primeiro)
-- **RN029**: Histórico de usuário deve permitir paginação com offset e limit (padrão: limit=10, offset=0)
-
-### Metas
-- **RN009**: Ao criar uma meta, ela deve ter status inicial "planejada"
-- **RN010**: ID de metas deve ser gerado incrementalmente baseado no comprimento do array
-- **RN011**: Listagem de metas deve permitir filtros por tipo, status e período. Filtros são opcionais
-- **RN012**: Ao atualizar uma meta que não existe, o sistema deve retornar erro "Meta não encontrada"
-- **RN013**: Ao deletar uma meta que não existe, o sistema deve retornar erro "Meta não encontrada"
-- **RN014**: Filtro de período nas metas deve considerar metas com data de vencimento entre start e end (inclusivo)
-- **RN021**: Resumo de metas deve agrupar contagens por tipo (Pessoal/Profissional) e por status (planejada/concluída)
-- **RN022**: Cada meta deve ser contada apenas uma vez no resumo
-- **RN023**: Gráfico de progresso deve agrupar metas por mês (formato YYYY-MM) e contar planejadas vs concluídas
-- **RN024**: Filtro do dashboard segue as mesmas regras de filtro de metas (tipo, status, período)
-
-### Projetos
-- **RN010**: ID de projetos deve ser gerado incrementalmente baseado no comprimento do array
-- **RN015**: Ao criar projeto, o sistema deve adicionar timestamp de criação
-- **RN016**: Listagem de projetos deve permitir filtros por período e responsável
-- **RN019**: Ao atualizar ou deletar um projeto que não existe, o sistema deve retornar erro específico
-- **RN028**: Períodos devem ser aplicados sobre a data de vencimento (dueDate) do projeto
-
-### Mentorias
-- **RN010**: ID de mentorias deve ser gerado incrementalmente baseado no comprimento do array
-- **RN015**: Ao criar mentoria, o sistema deve adicionar timestamp de criação
-- **RN016**: Listagem de mentorias deve permitir filtros por período e responsável
-- **RN019**: Ao atualizar ou deletar uma mentoria que não existe, o sistema deve retornar erro específico
-- **RN028**: Períodos devem ser aplicados sobre a data (date) da mentoria
-
-### Melhorias
-- **RN010**: ID de melhorias deve ser gerado incrementalmente baseado no comprimento do array
-- **RN015**: Ao criar melhoria, o sistema deve adicionar timestamp de criação
-- **RN016**: Listagem de melhorias deve permitir filtros por período e responsável
-- **RN019**: Ao atualizar ou deletar uma melhoria que não existe, o sistema deve retornar erro específico
-- **RN028**: Períodos devem ser aplicados sobre a data (date) da melhoria
-
-### Aprendizados
-- **RN010**: ID de aprendizados deve ser gerado incrementalmente baseado no comprimento do array
-- **RN015**: Ao criar aprendizado, o sistema deve adicionar timestamp de criação
-- **RN017**: Listagem de aprendizados deve permitir filtros por tipo, período e responsável
-- **RN019**: Ao atualizar ou deletar um aprendizado que não existe, o sistema deve retornar erro específico
-- **RN028**: Períodos devem ser aplicados sobre a data (date) do aprendizado
-
-### Anotações
-- **RN010**: ID de anotações deve ser gerado incrementalmente baseado no comprimento do array
-- **RN015**: Ao criar anotação, o sistema deve adicionar timestamp de criação
-- **RN018**: Listagem de anotações deve permitir filtro por período
-- **RN019**: Ao atualizar ou deletar uma anotação que não existe, o sistema deve retornar erro específico
-- **RN020**: Anotações devem armazenar a data automaticamente no momento da criação
-- **RN028**: Períodos devem ser aplicados sobre a data da anotação
-
-### Dashboard
-- **RN021**: Resumo de metas deve agrupar contagens por tipo (Pessoal/Profissional) e por status (planejada/concluída)
-- **RN022**: Cada meta deve ser contada apenas uma vez no resumo
-- **RN023**: Gráfico de progresso deve agrupar metas por mês (formato YYYY-MM) e contar planejadas vs concluídas
-- **RN024**: Filtro do dashboard segue as mesmas regras de filtro de metas (tipo, status, período)
-
-## Regras Gerais do Sistema
-
-### Validação e Tratamento de Erros
-- **RN025**: Todas as entidades devem ter tratamento de erro quando não encontradas nas operações de leitura, atualização e exclusão
-- **RN026**: Busca por ID em qualquer entidade deve converter o parâmetro para número antes de comparar
-- **RN030**: Atualização de entidades deve preservar todos os campos não fornecidos e sobrescrever apenas os fornecidos (Object.assign)
-
-### Filtros e Paginação
-- **RN027**: Filtros opcionais devem funcionar de forma inclusiva (AND lógico). Todos os filtros informados devem ser satisfeitos
-- **RN028**: Períodos devem ser aplicados sobre a data da entidade (date para mentorias/melhorias/aprendizados, dueDate para metas/projetos)
-
 ### Segurança e Integridade
 - **Segurança**: Senhas nunca são expostas nas respostas do sistema
 - **Incremento de ID**: IDs são sempre incrementais baseados no tamanho do array + 1
 - **Timestamps**: Todas as entidades criadas recebem timestamp automático
 - **Paginação**: Sistema de paginação aplicado apenas no histórico de usuário
+
+
+## Regras de Negócio
+
+As regras de negócio definem os comportamentos esperados da API, garantindo segurança, integridade e consistência dos dados.
+
+### Tabela de Regras de Negócio
+
+| ID | Regra | Descrição | Validação | Resultado Esperado |
+|----|------|-----------|-----------|-------------------|
+| RN01 | Cadastro de usuário | O sistema deve permitir o cadastro de novos usuários | Nome, email e senha obrigatórios | Usuário criado com sucesso |
+| RN02 | Email único | Não permitir cadastro com email já existente | Verificar email na base | Erro 409 – Conflito |
+| RN03 | Criptografia de senha | A senha deve ser armazenada criptografada | Uso de bcrypt | Senha protegida |
+| RN04 | Login com sucesso | Usuário deve autenticar com credenciais válidas | Email e senha corretos | Retornar JWT |
+| RN05 | Login inválido | Não permitir login com senha incorreta | Email ou senha inválidos | Erro 401 – Não autorizado |
+| RN06 | Token obrigatório | Rotas protegidas exigem autenticação | Header Authorization com Bearer Token | Acesso permitido |
+| RN07 | Token inválido | Não permitir acesso com token inválido | Token inválido ou expirado | Erro 401 |
+| RN08 | Criar meta | Usuário autenticado pode criar metas | Token válido | Meta criada |
+| RN09 | Atualizar meta | Usuário pode atualizar suas metas | ID válido e usuário proprietário | Meta atualizada |
+| RN10 | Excluir meta | Usuário pode excluir suas metas | ID válido | Meta excluída |
+| RN11 | Criar projeto | Usuário autenticado pode criar projetos | Token válido | Projeto criado |
+| RN12 | Atualizar projeto | Usuário pode atualizar seus projetos | ID válido | Projeto atualizado |
+| RN13 | Excluir projeto | Usuário pode excluir projetos | ID válido | Projeto excluído |
+| RN14 | Criar mentoria | Usuário pode registrar mentorias | Token válido | Mentoria criada |
+| RN15 | Atualizar mentoria | Usuário pode atualizar mentorias | ID válido | Mentoria atualizada |
+| RN16 | Excluir mentoria | Usuário pode excluir mentorias | ID válido | Mentoria excluída |
+| RN17 | Criar aprendizado | Usuário pode registrar aprendizados | Token válido | Aprendizado criado |
+| RN18 | Atualizar aprendizado | Usuário pode atualizar aprendizados | ID válido | Aprendizado atualizado |
+| RN19 | Excluir aprendizado | Usuário pode excluir aprendizados | ID válido | Aprendizado excluído |
+| RN20 | Estatísticas | Sistema deve retornar estatísticas do usuário | Token válido | Estatísticas exibidas |
+| RN21 | Acesso isolado | Usuário não pode acessar dados de outro | Validar ID usuário | Erro 403 – Proibido |
+| RN22 | Campos obrigatórios | Sistema deve validar campos obrigatórios | Campos ausentes | Erro 400 – Bad Request |
+| RN23 | Recurso inexistente | Não permitir acesso a recurso inexistente | ID inválido | Erro 404 – Not Found |
+| RN24 | Integridade dos dados | Garantir consistência antes de salvar | Validação de dados | Dados válidos armazenados |
+| RN25 | Exclusão segura | Sistema deve excluir apenas registros existentes | ID válido | Exclusão realizada |
+
+---
 
 ## Endpoints Principais
 
@@ -297,26 +252,61 @@ A maioria dos endpoints requer autenticação via JWT. Para obter o token:
    Authorization: Bearer <seu_token>
    ```
 
-## Próximos Passos
-   
-- **Testes de Performance:**  
- Medir tempo de resposta e analisar a escalabilidade de aplicações.
-
-- **Desenvolvimento Web:**  
-Construir aplicações web modernas, responsivas e funcionais, integrando boas práticas de desenvolvimento e acessibilidade.
-
-- **Testes Automatizados com Cypress:**  
-  Aplicar testes end-to-end para validar fluxos completos da aplicação.
-
-- **Integração Contínua (CI):**  
-  Implementar pipelines de CI para automatizar builds, testes e deploys, garantindo que mudanças no código sejam validadas rapidamente e mantendo a qualidade e estabilidade da aplicação.
-
 ## Documentação Detalhada
 
 Esta seção aborda todos os aspectos relacionados à qualidade do software e aos testes realizados no projeto. 
 
 [Wiki](https://github.com/simonegabionetta/gestao-desenvolvimento-pessoal/wiki)
 
+## Cobertura de Testes
+
+O projeto possui **78 casos de teste automatizados**, garantindo validação completa das funcionalidades da API.
+
+### Distribuição dos testes
+
+| Categoria | Quantidade |
+|----------|------------|
+| Usuários | 12 |
+| Autenticação | 10 |
+| Metas | 12 |
+| Projetos | 12 |
+| Mentorias | 10 |
+| Aprendizados | 10 |
+| Estatísticas | 6 |
+| Segurança e autorização | 6 |
+| **Total** | **78** |
+
+---
+
+## Tipos de testes implementados
+
+- Testes positivos
+- Testes negativos
+- Testes de validação
+- Testes de autenticação
+- Testes de autorização
+- Testes de segurança
+- Testes de integridade
+
+---
+
+## Resultado esperado da execução
+
+```sh
+78 passing
+0 failing
+```
+
+## Próximos Passos
+
+| Tarefa | Descrição | Status |
+|--------|-----------|--------|
+| Testes de Performance | Medir tempo de resposta da API e analisar escalabilidade | ☐ |
+| Desenvolvimento Web (Interface) | Criar telas principais da aplicação: Dashboard, Metas, Projetos, Mentorías, Aprendizados e Estatísticas. Garantir design responsivo e conexão com a API | ☐ |
+| Testes Automatizados com Cypress | Validar fluxos críticos do usuário end-to-end e garantir funcionamento correto de funcionalidades essenciais | ☐ |
+| Integração Contínua (CI) | Automatizar builds, testes e deploys para garantir qualidade e estabilidade do sistema | ☐ |
+
+---
 
 ## Créditos e Licença
 
