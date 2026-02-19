@@ -9,33 +9,37 @@ jobs:
 
     env:
       NODE_ENV: test
+      BASE_URL: ${{ secrets.BASE_URL }}
 
     steps:
-      # 1. Clonar o repositório
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      # 2. Configurar Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
 
-      # 3. Instalar dependências
       - name: Instalar dependências
         run: npm ci
 
-      # 4. Criar arquivo .env
       - name: Criar arquivo .env
         run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
           echo "NODE_ENV=test" >> .env
 
-      # 5. Subir o servidor e aguardar estar pronto
       - name: Iniciar servidor de aplicação
-        run: |
-          npm start &
-          npx wait-on http://localhost:3000 --timeout 60000
+        run: npm start > server.log 2>&1 &
 
-      # 6. Rodar testes de API
+      - name: Aguardar servidor subir e mostrar logs
+        run: |
+          npx wait-on http://localhost:3000 --timeout 60000
+          echo "=== Logs do servidor ==="
+          cat server.log
+
       - name: Executar testes
         run: npm test
+
+      - name: Mostrar logs em caso de falha
+        if: failure()
+        run: cat server.log || echo "Sem logs disponíveis"
