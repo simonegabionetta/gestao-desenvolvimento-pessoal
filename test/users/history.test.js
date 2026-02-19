@@ -1,53 +1,23 @@
-// bibliotecas
 const { expect } = require('chai');
 const request = require('supertest');
+require('dotenv').config();
 
-// fixtures
 const users = require('../fixtures/requisicoes/users/postUsersRegister.json');
-
-// helpers
 const { obterToken } = require('../helpers/authHelper');
 
-describe('users', () => {
-    let obterToken;
+describe('GET /users/me/history', () => {
+    let token;
 
     before(async () => {
-    token = await obterToken(logins.validLogin.email, logins.validLogin.password);
+        token = await obterToken(users.validUser.email, users.validUser.password);
+
+        // cria histórico fazendo logins repetidos
+        for (let i = 0; i < 12; i++) {
+            await request(process.env.BASE_URL)
+                .post('/users/login')
+                .send({ email: users.validUser.email, password: users.validUser.password });
+        }
     });
-
-    before(async () => {
-        // Garante que o usuário válido esteja registrado
-        await request(process.env.BASE_URL)
-            .post('/users/register')
-            .set('Authorization', `Bearer ${token}`)
-            .send(users.validUser)
-            .catch(() => { }); // ignora erro se usuário já existe    
-
-        
-
-        const existingUser = users.validUser;
-
-        // adiciona histórico
-        existingUser.history = [
-            { action: 'Criou uma meta', date: '2024-01-15' },
-            { action: 'Atualizou perfil', date: '2024-01-14' },
-            { action: 'Criou um projeto', date: '2024-01-13' },
-            { action: 'Fez login', date: '2024-01-12' },
-            { action: 'Criou uma anotação', date: '2024-01-11' },
-            { action: 'Atualizou meta', date: '2024-01-10' },
-            { action: 'Deletou projeto', date: '2024-01-09' },
-            { action: 'Criou aprendizado', date: '2024-01-08' },
-            { action: 'Registrou mentoria', date: '2024-01-07' },
-            { action: 'Criou melhoria', date: '2024-01-06' },
-            { action: 'Fez logout', date: '2024-01-05' },
-            { action: 'Visualizou dashboard', date: '2024-01-04' }
-        ];
-
-    });
-});
-
-describe('GET /users/me/history', async() => {
-    const token = await obterToken(users.validUser.email,users.validUser.password) 
 
     it('Deve retornar 200 com a lista de atividades', async () => {
         const response = await request(process.env.BASE_URL)
@@ -60,8 +30,7 @@ describe('GET /users/me/history', async() => {
 
     it('Deve retornar 401 quando token não fornecido', async () => {
         const response = await request(process.env.BASE_URL)
-            .get('/users/me/history')
-            .set('Authorization', `Bearer ${token}`)
+            .get('/users/me/history');
 
         expect(response.status).to.equal(401);
     });
@@ -91,12 +60,14 @@ describe('GET /users/me/history', async() => {
 
         const response2 = await request(process.env.BASE_URL)
             .get('/users/me/history?limit=5&offset=5')
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`);
 
         expect(response1.status).to.equal(200);
         expect(response2.status).to.equal(200);
-        // garante que as ações sejam diferentes
-        expect(response1.body[0].action).to.not.equal(response2.body[0].action);
+        expect(response1.body).to.have.lengthOf(5);
+        expect(response2.body).to.have.lengthOf(5);
+        
+        // Verifica se são arrays diferentes
+        expect(response1.body).to.not.deep.equal(response2.body);
     });
 });
-

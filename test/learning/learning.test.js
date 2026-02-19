@@ -56,104 +56,97 @@ describe('learning', () => {
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
-
-            
         });
     });
-});
 
-describe('GET /learning/id', () => {
-    let learningId;
+    describe('GET /learning/:id', () => {
+        let learningId;
 
-    beforeEach(async () => {
-        token = await obterToken(logins.validLogin.email, logins.validLogin.password);
-        const response = await request(process.env.BASE_URL)
-            .post('/learning')
-            .set('Authorization', `Bearer ${token}`)
-            .send(learning.validLearnings[0]);
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/learning')
+                .set('Authorization', `Bearer ${token}`)
+                .send(learning.validLearnings[0]);
 
-        learningId = response.body.id;
+            learningId = response.body.id;
+        });
+
+        it('Deve retornar 200 com os detalhes do learning', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get(`/learning/${learningId}`)
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).to.equal(200);
+            expect(response.body.id).to.equal(learningId);
+        });
+
+        it('Deve retornar 404 quando o learning não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get('/learning/9999')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).to.equal(404);
+        });
     });
 
-    it('Deve retornar 200 com os detalhes do learning', async () => {
-        const response = await request(process.env.BASE_URL)
-            .get(`/learning/${learningId}`)
-            .set('Authorization', `Bearer ${token}`);
+    describe('PUT /learning/:id', () => {
+        let learningId;
 
-        expect(response.status).to.equal(200);
-        expect(response.body.id).to.equal(learningId);
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/learning')
+                .set('Authorization', `Bearer ${token}`)
+                .send(learning.validLearnings[0]);
+
+            learningId = response.body.id;
+        });
+
+        it('Deve retornar 200 com o learning atualizado', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put(`/learning/${learningId}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({ content: 'Aprender Node.js Avançado' });
+
+            expect(response.status).to.equal(200);
+            expect(response.body.content).to.equal('Aprender Node.js Avançado');
+        });
+
+        it('Deve retornar 400/404 quando o learning não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put('/learning/9999')
+                .set('Authorization', `Bearer ${token}`)
+                .send({ content: 'Teste' });
+
+            expect([400, 404]).to.include(response.status);
+        });
     });
 
-    it('Deve retornar 404 quando o learning não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .get('/learning/9999')
-            .set('Authorization', `Bearer ${token}`);
+    describe('DELETE /learning/:id', () => {
+        let learningId;
 
-        expect(response.status).to.equal(404);
-    });
-});
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/learning')
+                .set('Authorization', `Bearer ${token}`)
+                .send(learning.validLearnings[0]);
 
-describe('PUT /learning/id', () => {
-    let learningId;
+            learningId = response.body.id;
+        });
 
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/learning')
-            .set('Authorization', `Bearer ${token}`)
-            .send(learning.validLearnings[0]);
+        it('Deve retornar 204 quando o learning for excluído', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete(`/learning/${learningId}`)
+                .set('Authorization', `Bearer ${token}`);
 
-        learningId = response.body.id;
-    });
+            expect(response.status).to.equal(204);
+        });
 
-    it('Deve retornar 200 com o learning atualizado', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put(`/learning/${learningId}`)
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                content: 'Aprender Node.js Avançado'
-            });
+        it('Deve retornar 404 quando o learning não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete('/learning/9999')
+                .set('Authorization', `Bearer ${token}`);
 
-        expect(response.status).to.equal(200);
-        expect(response.body.content).to.equal('Aprender Node.js Avançado');
-    });
-
-    it('Deve retornar 400/404 quando o learning não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put('/learning/9999')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                content: 'Teste'
-            });
-
-        expect([400, 404]).to.include(response.status);
-    });
-});
-
-describe('DELETE /learning/id', () => {
-    let learningId;
-
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/learning')
-            .set('Authorization', `Bearer ${token}`)
-            .send(learning.validLearnings[0]);
-
-        learningId = response.body.id;
-    });
-
-    it('Deve retornar 204 quando o learning for excluído', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete(`/learning/${learningId}`)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).to.equal(204);
-    });
-
-    it('Deve retornar 404 quando o learning não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete('/learning/9999')
-            .set('Authorization', `Bearer ${token}`);
-
-        expect([400, 404]).to.include(response.status);
+            expect([400, 404]).to.include(response.status);
+        });
     });
 });

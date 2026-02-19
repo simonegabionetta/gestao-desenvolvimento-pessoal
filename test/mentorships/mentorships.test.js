@@ -7,7 +7,7 @@ require('dotenv').config();
 const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
 const mentorships = require('../fixtures/requisicoes/mentorships/postMentorships.json');
 
-describe('mentorships ', () => {
+describe('mentorships', () => {
     let token;
 
     beforeEach(async () => {
@@ -59,101 +59,96 @@ describe('mentorships ', () => {
             expect(response.body).to.be.an('array');
         });
     });
-});
 
-describe('GET /mentorships/:id', () => {
-    let mentorshipId;
+    describe('GET /mentorships/:id', () => {
+        let mentorshipId;
 
-    beforeEach(async () => {
-        token = await obterToken(logins.validLogin.email, logins.validLogin.password);
-        const response = await request(process.env.BASE_URL)
-            .post('/mentorships')
-            .set('Authorization', `Bearer ${token}`)
-            .send(mentorships.validMentorships[0]);
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/mentorships')
+                .set('Authorization', `Bearer ${token}`)
+                .send(mentorships.validMentorships[0]);
 
-        mentorshipId = response.body.id;
-        expect(mentorshipId).to.exist;
+            mentorshipId = response.body.id;
+            expect(mentorshipId).to.exist;
+        });
+
+        it('Deve retornar 200 com os detalhes da mentoria', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get(`/mentorships/${mentorshipId}`)
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).to.equal(200);
+            expect(response.body.id).to.equal(mentorshipId);
+        });
+
+        it('Deve retornar 404 quando a mentoria não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .get('/mentorships/9999')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(response.status).to.equal(404);
+        });
     });
 
-    it('Deve retornar 200 com os detalhes da mentoria', async () => {
-        const response = await request(process.env.BASE_URL)
-            .get(`/mentorships/${mentorshipId}`)
-            .set('Authorization', `Bearer ${token}`);
+    describe('PUT /mentorships/:id', () => {
+        let mentorshipId;
 
-        expect(response.status).to.equal(200);
-        expect(response.body.id).to.equal(mentorshipId);
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/mentorships')
+                .set('Authorization', `Bearer ${token}`)
+                .send(mentorships.validMentorships[0]);
+
+            mentorshipId = response.body.id;
+        });
+
+        it('Deve retornar 200 com a mentoria atualizada', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put(`/mentorships/${mentorshipId}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({ topic: 'Mentoria Node.js Avançado' });
+
+            expect(response.status).to.equal(200);
+            expect(response.body.topic).to.equal('Mentoria Node.js Avançado');
+        });
+
+        it('Deve retornar 400/404 quando a mentoria não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .put('/mentorships/9999')
+                .set('Authorization', `Bearer ${token}`)
+                .send({ topic: 'Teste' });
+
+            expect([400, 404]).to.include(response.status);
+        });
     });
 
-    it('Deve retornar 404 quando a mentoria não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .get('/mentorships/9999')
-            .set('Authorization', `Bearer ${token}`);
+    describe('DELETE /mentorships/:id', () => {
+        let mentorshipId;
 
-        expect(response.status).to.equal(404);
-    });
-});
+        beforeEach(async () => {
+            const response = await request(process.env.BASE_URL)
+                .post('/mentorships')
+                .set('Authorization', `Bearer ${token}`)
+                .send(mentorships.validMentorships[0]);
 
-describe('PUT /mentorships/:id', () => {
-    let mentorshipId;
+            mentorshipId = response.body.id;
+        });
 
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/mentorships')
-            .set('Authorization', `Bearer ${token}`)
-            .send(mentorships.validMentorships[0]);
+        it('Deve retornar 204 quando a mentoria for excluída', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete(`/mentorships/${mentorshipId}`)
+                .set('Authorization', `Bearer ${token}`);
 
-        mentorshipId = response.body.id;
-    });
+            expect(response.status).to.equal(204);
+        });
 
-    it('Deve retornar 200 com a mentoria atualizada', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put(`/mentorships/${mentorshipId}`)
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                topic: 'Mentoria Node.js Avançado'
-            });
+        it('Deve retornar 404 quando a mentoria não existir', async () => {
+            const response = await request(process.env.BASE_URL)
+                .delete('/mentorships/9999')
+                .set('Authorization', `Bearer ${token}`);
 
-        expect(response.status).to.equal(200);
-        expect(response.body.topic).to.equal('Mentoria Node.js Avançado');
-    });
-
-    it('Deve retornar 400/404 quando a mentoria não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .put('/mentorships/9999')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                topic: 'Teste'
-            });
-
-        expect([400, 404]).to.include(response.status);
-    });
-});
-
-describe('DELETE /mentorships/:id', () => {
-    let mentorshipId;
-
-    beforeEach(async () => {
-        const response = await request(process.env.BASE_URL)
-            .post('/mentorships')
-            .set('Authorization', `Bearer ${token}`)
-            .send(mentorships.validMentorships[0]);
-
-        mentorshipId = response.body.id;
-    });
-
-    it('Deve retornar 204 quando a mentoria for excluída', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete(`/mentorships/${mentorshipId}`)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).to.equal(204);
-    });
-
-    it('Deve retornar 404 quando a mentoria não existir', async () => {
-        const response = await request(process.env.BASE_URL)
-            .delete('/mentorships/9999')
-            .set('Authorization', `Bearer ${token}`);
-
-        expect([400, 404]).to.include(response.status);
+            expect([400, 404]).to.include(response.status);
+        });
     });
 });

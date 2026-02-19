@@ -1,29 +1,24 @@
 const request = require('supertest');
-// fixtures
-const logins = require('../fixtures/requisicoes/users/postUsersLogin.json');
+require('dotenv').config();
 
-const obterToken = async () => {
-    // Registrar usuário antes do login (ignora se já existir)
+const obterToken = async (email, password) => {
     await request(process.env.BASE_URL)
         .post('/users/register')
         .send({
             name: 'Usuário Teste',
-            email: logins.validLogin.email,
-            password: logins.validLogin.password
-        });
+            email: email,
+            password: password
+        })
+        .catch(() => {});
 
-    // Fazer login para obter o token
     const respostaLogin = await request(process.env.BASE_URL)
         .post('/users/login')
         .send({
-            email: logins.validLogin.email,
-            password: logins.validLogin.password
+            email: email,
+            password: password
         });
 
     return respostaLogin.body.token;
 };
 
-
-module.exports ={
-    obterToken
-}
+module.exports = { obterToken };

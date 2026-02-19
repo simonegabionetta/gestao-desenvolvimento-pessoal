@@ -9,12 +9,11 @@ jobs:
 
     env:
       NODE_ENV: test
-      BASE_URL: ${{ secrets.BASE_URL }} # Configure o segredo no repositório
 
     steps:
       # 1. Clonar o repositório
       - name: Checkout do repositório
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       # 2. Configurar Node.js
       - name: Setup Node.js
@@ -29,19 +28,14 @@ jobs:
       # 4. Criar arquivo .env
       - name: Criar arquivo .env
         run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
           echo "NODE_ENV=test" >> .env
 
-      # 5. Subir o servidor em background
+      # 5. Subir o servidor e aguardar estar pronto
       - name: Iniciar servidor de aplicação
         run: |
           npm start &
           npx wait-on http://localhost:3000 --timeout 60000
 
-      # 6. Esperar servidor estar pronto
-      - name: Aguardar servidor
-        run: npx wait-on http://localhost:3000 --timeout 60000
-
-      # 7. Rodar testes de API
+      # 6. Rodar testes de API
       - name: Executar testes
         run: npm test
