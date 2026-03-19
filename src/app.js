@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');  
 const app = express();
 const userRoutes = require('./routes/userRoutes');
 const goalRoutes = require('./routes/goalRoutes');
@@ -11,6 +12,11 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const path = require('path');
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 app.use(express.json());
 
